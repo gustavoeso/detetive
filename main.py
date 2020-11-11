@@ -73,9 +73,11 @@ while state != DONE:
     screen.blit(flori_img, (380, 380))
     screen.blit(prefeitura_img, (200, 380))
     screen.blit(praca_img, (200, 200))
-# comentário
+
 
     #depois de desenhar tudo, mostra a nova tela
     pygame.display.flip()
 
+
+#teste para comit
 pygame.quit()

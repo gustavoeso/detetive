@@ -7,7 +7,7 @@ import random
 pygame.init()
 pygame.mixer.init()
 
-
+# comentário
 #constantes
 IMG_DIR = path.dirname(__file__)
 BLACK = (0, 0, 0)

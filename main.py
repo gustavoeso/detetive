@@ -57,6 +57,8 @@ while state != DONE:
         if event.type == pygame.MOUSEBUTTONDOWN:
             position = pygame.mouse.get_pos()
             print (position[0])
+            print (position[1])
+            print('---------------------------')
 
     #A cada loop, redesenhe o fundo e os sprites
     screen.fill(GREEN)

@@ -93,5 +93,5 @@ while state != DONE:
     #depois de desenhar tudo, mostra a nova tela
     pygame.display.flip()
 
-#mais um comite teste
+
 pygame.quit()

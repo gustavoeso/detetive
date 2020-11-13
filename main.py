@@ -16,6 +16,8 @@ GREEN = (0, 128, 0)
 DONE = 0
 PLAYING = 1
 GROUND = 550
+X_BANCO = 10
+Y_BANCO = 10
 
 
 class Jogador(pygame.sprite.Sprite):
@@ -26,6 +28,13 @@ class Jogador(pygame.sprite.Sprite):
         self.rect = img.get_rect()
         self.rect.x = x
         self.rect.y = y
+
+
+def verifica_clique(locais):
+    mouse_pos = pygame.mouse.get_pos()
+    for local, nome in locais.items():
+        if local.get_rect().collidepoint(mouse_pos):
+            print(nome)  # Mostrar a tela. O print é só teste
 
 
 #tela do jogo
@@ -47,6 +56,11 @@ boate_img = pygame.image.load(path.join(IMG_DIR, 'imagens/boate.png')).convert_a
 flori_img = pygame.image.load(path.join(IMG_DIR, 'imagens/flori.png')).convert_alpha()
 prefeitura_img = pygame.image.load(path.join(IMG_DIR, 'imagens/prefeitura.png')).convert_alpha()
 metro_img = pygame.image.load(path.join(IMG_DIR, 'imagens/metro.png')).convert_alpha()
+locais = {
+    banco_img: 'banco',
+    hotel_img: 'hotel', 
+    praca_img: 'praca',
+}
 
 #conseguir abrir a tela e fechar ela
 state = PLAYING
@@ -55,9 +69,8 @@ while state != DONE:
         if event.type == pygame.QUIT:
             state = DONE
         if event.type == pygame.MOUSEBUTTONDOWN:
-            position = pygame.mouse.get_pos()
-            print (position[0])
-            print (position[1])
+            verifica_clique(locais)
+
             print('---------------------------')
 
     #A cada loop, redesenhe o fundo e os sprites
@@ -66,7 +79,7 @@ while state != DONE:
     # screen.blit(arma1_img, (100, 50))
     # screen.blit(arma_pá_img, (200, 50))
     # screen.blit(Socoinglês_img, (300, 50))
-    screen.blit(banco_img, (10, 10))
+    screen.blit(banco_img, (X_BANCO, Y_BANCO))
     screen.blit(biblioteca_img, (10, 200))
     screen.blit(hotel_img, (10, 380))
     screen.blit(metro_img, (200, 10))

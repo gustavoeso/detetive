@@ -16,9 +16,34 @@ GREEN = (0, 128, 0)
 DONE = 0
 PLAYING = 1
 GROUND = 550
+
+#coordenadas dos locais
 X_BANCO = 10
 Y_BANCO = 10
 
+X_BIBLIOTECA = 10
+Y_BIBLIOTECA = 200
+
+X_HOTEL = 10
+Y_HOTEL = 380
+
+X_METRO = 200
+Y_METRO = 10
+
+X_CEMIT = 380
+Y_CEMIT = 10
+
+X_BOATE = 380
+Y_BOATE = 200
+
+X_FLORI = 380
+Y_FLORI = 380
+
+X_PREFEITURA = 200
+Y_PREFEITURA = 380
+
+X_PRACA = 200
+Y_PRACA = 200
 
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, x, y, img):
@@ -30,11 +55,22 @@ class Jogador(pygame.sprite.Sprite):
         self.rect.y = y
 
 
+class Local(pygame.sprite.Sprite):
+    def __init__(self, x, y, img, nome):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = img
+        self.rect = img.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.nome = nome
+
+
 def verifica_clique(locais):
     mouse_pos = pygame.mouse.get_pos()
-    for local, nome in locais.items():
-        if local.get_rect().collidepoint(mouse_pos):
-            print(nome)  # Mostrar a tela. O print é só teste
+    for local in locais:
+        if local.rect.collidepoint(mouse_pos):
+            print(local.nome)  # Mostrar a tela. O print é só teste
 
 
 #tela do jogo
@@ -56,11 +92,19 @@ boate_img = pygame.image.load(path.join(IMG_DIR, 'imagens/boate.png')).convert_a
 flori_img = pygame.image.load(path.join(IMG_DIR, 'imagens/flori.png')).convert_alpha()
 prefeitura_img = pygame.image.load(path.join(IMG_DIR, 'imagens/prefeitura.png')).convert_alpha()
 metro_img = pygame.image.load(path.join(IMG_DIR, 'imagens/metro.png')).convert_alpha()
-locais = {
-    banco_img: 'banco',
-    hotel_img: 'hotel', 
-    praca_img: 'praca',
-}
+
+#dicionario definindo os locais
+locais = [
+    Local(X_BANCO, Y_BANCO, banco_img, 'banco'),
+    Local(X_BIBLIOTECA, Y_BIBLIOTECA, biblioteca_img, 'biblioteca'),
+    Local(X_HOTEL, Y_HOTEL, hotel_img, 'hotel'),
+    Local(X_METRO, Y_METRO, metro_img, 'metro'),
+    Local(X_CEMIT, Y_CEMIT, cemit_img, 'cemiterio'),
+    Local(X_BOATE, Y_BOATE, boate_img, 'boate'),
+    Local(X_FLORI, Y_FLORI, flori_img, 'floricultura'),
+    Local(X_PREFEITURA, Y_PREFEITURA, prefeitura_img, 'prefeitura'),
+    Local(X_PRACA, Y_PRACA, praca_img, 'praca'),
+]
 
 #conseguir abrir a tela e fechar ela
 state = PLAYING
@@ -70,8 +114,8 @@ while state != DONE:
             state = DONE
         if event.type == pygame.MOUSEBUTTONDOWN:
             verifica_clique(locais)
-
             print('---------------------------')
+
 
     #A cada loop, redesenhe o fundo e os sprites
     screen.fill(GREEN)
@@ -79,16 +123,8 @@ while state != DONE:
     # screen.blit(arma1_img, (100, 50))
     # screen.blit(arma_pá_img, (200, 50))
     # screen.blit(Socoinglês_img, (300, 50))
-    screen.blit(banco_img, (X_BANCO, Y_BANCO))
-    screen.blit(biblioteca_img, (10, 200))
-    screen.blit(hotel_img, (10, 380))
-    screen.blit(metro_img, (200, 10))
-    screen.blit(cemit_img, (380, 10))
-    screen.blit(boate_img, (380, 200))
-    screen.blit(flori_img, (380, 380))
-    screen.blit(prefeitura_img, (200, 380))
-    screen.blit(praca_img, (200, 200))
-
+    for local in locais:
+        screen.blit(local.image, local.rect)
 
     #depois de desenhar tudo, mostra a nova tela
     pygame.display.flip()

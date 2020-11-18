@@ -10,6 +10,7 @@ pygame.mixer.init()
 
 #constantes
 IMG_DIR = path.dirname(__file__)
+SND_DIR = path.dirname(__file__)
 BLACK = (0, 0, 0)
 WHITE =  (255, 255, 255)
 GREEN = (0, 128, 0)
@@ -47,6 +48,9 @@ Y_PRACA = 200
 
 X_BACK = 400
 Y_BACK = 400
+
+X_TROFEU = 250
+Y_TROFEU = 250
 
 #variaveis
 game_state = 0
@@ -88,7 +92,6 @@ def verifica_clique(locais):
     mouse_pos = pygame.mouse.get_pos()
     for local in locais:
         if local.rect.collidepoint(mouse_pos):
-            print(local.nome)  # Mostrar a tela. O print é só teste
             # return locais.index(local)+1
             return local
     # return game_state
@@ -113,6 +116,8 @@ arma1_img = pygame.image.load(path.join(IMG_DIR, 'imagens/arma1.png')).convert_a
 arma_pá_img = pygame.image.load(path.join(IMG_DIR, 'imagens/armas_pá.png')).convert_alpha()
 Socoinglês_img = pygame.image.load(path.join(IMG_DIR, 'imagens/armas_socoinglês.png')).convert_alpha()
 veneno_img = pygame.image.load(path.join(IMG_DIR, 'imagens/armas_veneno.png')).convert_alpha()
+trofeu_img = pygame.image.load(path.join(IMG_DIR, 'imagens/trofeu.png')).convert_alpha()
+tesoura_img = pygame.image.load(path.join(IMG_DIR, 'imagens/tesoura.png')).convert_alpha()
 back_img = pygame.image.load(path.join(IMG_DIR, 'imagens/back.png')).convert_alpha()
 back_img_rect = back_img.get_rect()
 back_img_rect.x = X_BACK
@@ -137,9 +142,16 @@ prefeitura_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/prefeitura
 biblioteca_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/biblioteca_grande.png')).convert_alpha()
 
 # Fazer uma lista de n+1 objetos
-objetos = [1, 2, 3, 4, 5, 6, 7, 8]  # Trocar por Objeto()
+objetos = [
+    Objeto(X_TROFEU, Y_TROFEU, tesoura_img), 
+    Objeto(X_TROFEU, Y_TROFEU, trofeu_img), 
+    Objeto(X_TROFEU, Y_TROFEU, trofeu_img),
+]
+
 # random.shuffle(objetos)
 objeto_selecionado = objetos[-1]
+
+posicoes = [[100, 200], [300, 380], [200, 400]]
 
 #dicionario definindo os locais
 locais = [
@@ -158,6 +170,9 @@ locais = [
 #conseguir abrir a tela e fechar ela
 local_atual = None
 state = PLAYING
+pygame.mixer.music.load((path.join(SND_DIR, 'Musicas/sherlock.mp3')))
+pygame.mixer.music.play(loops=-1)
+
 while state != DONE:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -165,11 +180,10 @@ while state != DONE:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if local_atual is None:
                 local_atual = verifica_clique(locais)
-                print('---------------------------')
-            # elif tela_de_chute:
-            #     verifica_clique_objeto(objetos)
             else:
                 voltar = verifica_clique_local(back_img_rect)
+                sound_click = pygame.mixer.Sound((path.join(SND_DIR, 'Musicas/click.mp3')))
+                sound_click.play()
                 if voltar:
                     local_atual = None
     #A cada loop, redesenhe o fundo e os sprites
@@ -182,8 +196,11 @@ while state != DONE:
         screen.fill(BLACK)
         screen.blit(local_atual.img_grande, (0, 0))
         screen.blit(back_img, back_img_rect)
+        i = 0
         for objeto in local_atual.objetos:
-            pass
+            posicao = posicoes[i]
+            screen.blit(objeto.image, posicao)
+            i += 1
 
     #depois de desenhar tudo, mostra a nova tela
     pygame.display.flip()

@@ -45,6 +45,9 @@ Y_PREFEITURA = 380
 X_PRACA = 200
 Y_PRACA = 200
 
+X_BACK = 400
+Y_BACK = 400
+
 #variaveis
 game_state = 0
 
@@ -91,6 +94,15 @@ def verifica_clique(locais):
     # return game_state
     return None
 
+
+def verifica_clique_local(local_rect):
+    mouse_pos = pygame.mouse.get_pos()
+    if local_rect.collidepoint(mouse_pos):
+        return True
+    # return game_state
+    return False
+
+
 #tela do jogo
 screen = pygame.display.set_mode((500, 500))
 pygame.display.set_caption('Detetive')
@@ -101,6 +113,10 @@ arma1_img = pygame.image.load(path.join(IMG_DIR, 'imagens/arma1.png')).convert_a
 arma_pá_img = pygame.image.load(path.join(IMG_DIR, 'imagens/armas_pá.png')).convert_alpha()
 Socoinglês_img = pygame.image.load(path.join(IMG_DIR, 'imagens/armas_socoinglês.png')).convert_alpha()
 veneno_img = pygame.image.load(path.join(IMG_DIR, 'imagens/armas_veneno.png')).convert_alpha()
+back_img = pygame.image.load(path.join(IMG_DIR, 'imagens/back.png')).convert_alpha()
+back_img_rect = back_img.get_rect()
+back_img_rect.x = X_BACK
+back_img_rect.y = Y_BACK
 banco_img = pygame.image.load(path.join(IMG_DIR, 'imagens/banco.png')).convert_alpha()
 biblioteca_img = pygame.image.load(path.join(IMG_DIR, 'imagens/biblioteca.png')).convert_alpha()
 hotel_img = pygame.image.load(path.join(IMG_DIR, 'imagens/hotel.png')).convert_alpha()
@@ -147,13 +163,15 @@ while state != DONE:
         if event.type == pygame.QUIT:
             state = DONE
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if game_state ==0:
+            if local_atual is None:
                 local_atual = verifica_clique(locais)
                 print('---------------------------')
             # elif tela_de_chute:
             #     verifica_clique_objeto(objetos)
             else:
-                print('Hello world')
+                voltar = verifica_clique_local(back_img_rect)
+                if voltar:
+                    local_atual = None
     #A cada loop, redesenhe o fundo e os sprites
     # if game_state == 0:
     if local_atual is None:
@@ -163,6 +181,7 @@ while state != DONE:
     else:
         screen.fill(BLACK)
         screen.blit(local_atual.img_grande, (0, 0))
+        screen.blit(back_img, back_img_rect)
         for objeto in local_atual.objetos:
             pass
 

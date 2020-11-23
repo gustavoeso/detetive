@@ -14,45 +14,44 @@ SND_DIR = path.dirname(__file__)
 BLACK = (0, 0, 0)
 WHITE =  (255, 255, 255)
 GREEN = (0, 128, 0)
-DONE = 0
-PLAYING = 1
 GROUND = 550
 
 #coordenadas dos locais
-X_BANCO = 10
-Y_BANCO = 10
+T_TELA_X = 1080
+T_TELA_Y = 820
 
-X_BIBLIOTECA = 10
-Y_BIBLIOTECA = 200
+X_BANCO = 10*2.16
+Y_BANCO = 10*1.64
 
-X_HOTEL = 10
-Y_HOTEL = 380
+X_BIBLIOTECA = 10*2.16
+Y_BIBLIOTECA = 200*1.40
 
-X_METRO = 200
-Y_METRO = 10
+X_HOTEL = 10*2.16
+Y_HOTEL = 380*1.50
 
-X_CEMIT = 380
-Y_CEMIT = 10
+X_METRO = 200*2.16
+Y_METRO = 10*1.64
 
-X_BOATE = 380
-Y_BOATE = 200
+X_CEMIT = 380*2.16
+Y_CEMIT = 10*1.64
 
-X_FLORI = 380
-Y_FLORI = 380
+X_BOATE = 380*2.16
+Y_BOATE = 200*1.40
 
-X_PREFEITURA = 200
-Y_PREFEITURA = 380
+X_FLORI = 380*2.16
+Y_FLORI = 380*1.50
 
-X_PRACA = 200
-Y_PRACA = 200
+X_PREFEITURA = 200*2.16
+Y_PREFEITURA = 380*1.50
 
-X_BACK = 400
+X_PRACA = 200*2.16
+Y_PRACA = 200*1.20
 
-Y_BACK = 400
+X_BACK = 400*2.16
+Y_BACK = 400*1.64
 
-X_TROFEU = 250
-
-Y_TROFEU = 250
+X_TROFEU = 250*2.16
+Y_TROFEU = 250*1.64
 
 # variaveis
 game_state = 0 
@@ -110,7 +109,7 @@ def verifica_clique_local(local_rect):
 
 
 #tela do jogo
-screen = pygame.display.set_mode((500, 500))
+screen = pygame.display.set_mode((T_TELA_X, T_TELA_Y))
 pygame.display.set_caption('Detetive')
 
 
@@ -139,7 +138,7 @@ metro_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/metro_grande.pn
 boate_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/boate_grande.png')).convert_alpha()
 cemit_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/cemit_grande.png')).convert_alpha()
 hotel_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/hotel_grande.png')).convert_alpha()
-banco_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/banco_grande.png')).convert_alpha()
+banco_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/banco_grande.jpg')).convert_alpha()
 flori_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/flori_grande.png')).convert_alpha()
 praca_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/praca_grande.png')).convert_alpha()
 prefeitura_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/prefeitura_grande.png')).convert_alpha()
@@ -174,81 +173,56 @@ locais = [
 
 # Define constantes para as telas
 STARTING = 0
-GAME = 1
-END = 2
-CREDITOS = 3
-TUTORIAL1 = 4
-TUTORIAL2 = 5
-TUTORIAL3 = 6
+DONE = 1
+PLAYING = 2
+GAME = 3
+END = 4
+CREDITOS = 5
+TUTORIAL1 = 6
+TUTORIAL2 = 7
+TUTORIAL3 = 8
 
 
 #conseguir abrir a tela e fechar ela
 def game_screen(screen):
+    local_atual = None
     state = PLAYING
+    pygame.mixer.music.load((path.join(SND_DIR, 'Musicas/sherlock.mp3')))
+    pygame.mixer.music.play(loops=-1)
     while state != DONE:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return END
+                state = DONE
             if event.type == pygame.MOUSEBUTTONDOWN:
-                verifica_clique(locais)
-                print('---------------------------')
-
-
+                if local_atual is None:
+                    local_atual = verifica_clique(locais)
+                    # if clicou_botao_tutorial:
+                    #      return TUTORIAL 
+                    # if clicou_botao_creditos:
+                    #      return CREDITOS
+                else:
+                    voltar = verifica_clique_local(back_img_rect)
+                    sound_click = pygame.mixer.Sound((path.join(SND_DIR, 'Musicas/click.mp3')))
+                    sound_click.play()
+                    if voltar:
+                        local_atual = None
         #A cada loop, redesenhe o fundo e os sprites
-        screen.fill(GREEN)
-        # screen.blit(veneno_img, (50, 50))
-        # screen.blit(arma1_img, (100, 50))
-        # screen.blit(arma_pá_img, (200, 50))
-        # screen.blit(Socoinglês_img, (300, 50))
-        for local in locais:
-            screen.blit(local.image, local.rect)
-            
+        # if game_state == 0:
+        if local_atual is None:
+            screen.fill(GREEN)
+            for local in locais:
+                screen.blit(local.image, local.rect)
+        else:
+            screen.fill(BLACK)
+            screen.blit(local_atual.img_grande, (0, 0))
+            screen.blit(back_img, back_img_rect)
+            i = 0
+            for objeto in local_atual.objetos:
+                posicao = posicoes[i]
+                screen.blit(objeto.image, posicao)
+                i += 1
         #depois de desenhar tudo, mostra a nova tela
         pygame.display.flip()
-
-
-#conseguir abrir a tela e fechar ela
-local_atual = None
-state = PLAYING
-pygame.mixer.music.load((path.join(SND_DIR, 'Musicas/sherlock.mp3')))
-pygame.mixer.music.play(loops=-1)
-while state != DONE:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            state = DONE
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if local_atual is None:
-                local_atual = verifica_clique(locais)
-                # if clicou_botao_tutorial:
-                #      return TUTORIAL 
-                # if clicou_botao_creditos:
-                #      return CREDITOS
-            else:
-                voltar = verifica_clique_local(back_img_rect)
-                sound_click = pygame.mixer.Sound((path.join(SND_DIR, 'Musicas/click.mp3')))
-                sound_click.play()
-                if voltar:
-                    local_atual = None
-    #A cada loop, redesenhe o fundo e os sprites
-    # if game_state == 0:
-    if local_atual is None:
-        screen.fill(GREEN)
-        for local in locais:
-            screen.blit(local.image, local.rect)
-    else:
-        screen.fill(BLACK)
-        screen.blit(local_atual.img_grande, (0, 0))
-        screen.blit(back_img, back_img_rect)
-        i = 0
-        for objeto in local_atual.objetos:
-            posicao = posicoes[i]
-            screen.blit(objeto.image, posicao)
-            i += 1
-    #depois de desenhar tudo, mostra a nova tela
-    pygame.display.flip()
-
-pygame.quit()
- 
 
 def tutorial_screen(screen, background_img, next_screen):
     state = PLAYING
@@ -257,30 +231,25 @@ def tutorial_screen(screen, background_img, next_screen):
             if event.type == pygame.QUIT:
                 return END
             if event.type == pygame.MOUSEBUTTONDOWN:
-                # if clicou_botao_tutorial:
-                #     return TUTORIAL 
-                #if clicou_botao_creditos:
-                #     return CREDITOS
                 return next_screen
-    
-        screen.fill((255, 0, 0))
-
+                
+        screen.blit(tutorial1_img, (0,0))
         #depois de desenhar tudo, mostra a nova tela
         pygame.display.flip()
 
 
-game_state = GAME
+game_state = TUTORIAL1
 while game_state != END:
     # if game_state == STARTING:
     #     game_state = start_screen(screen)
     if game_state == GAME:
         game_state = game_screen(screen)
-    # elif game_state == TUTORIAL1:
-    #     game_state = tutorial_screen(screen, tutorial1_img, TUTORIAL2)
-    # elif game_state == TUTORIAL2:
-    #     game_state = tutorial_screen(screen, tutorial2_img, TUTORIAL3)
-    #elif game_state == TUTORIAL3:
-    #     game state = tutorial_screen(screen, tutorial3_img, INICIAL)
+    elif game_state == TUTORIAL1:
+        game_state = tutorial_screen(screen, tutorial1_img, TUTORIAL2)
+    elif game_state == TUTORIAL2:
+        game_state = tutorial_screen(screen, tutorial2_img, TUTORIAL3)
+    elif game_state == TUTORIAL3:
+        game_state = tutorial_screen(screen, tutorial3_img, GAME)
     else:
         game_state = END
 

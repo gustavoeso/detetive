@@ -224,6 +224,7 @@ def game_screen(screen):
         #depois de desenhar tudo, mostra a nova tela
         pygame.display.flip()
 
+#mudanddo telas iniciais e do jogo
 def tutorial_screen(screen, background_img, next_screen):
     state = PLAYING
     while state != DONE:
@@ -233,7 +234,7 @@ def tutorial_screen(screen, background_img, next_screen):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 return next_screen
 
-        screen.blit(tutorial1_img, (0,0))
+        screen.blit(background_img, (0,0))
         #depois de desenhar tudo, mostra a nova tela
         pygame.display.flip()
 

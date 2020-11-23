@@ -47,8 +47,8 @@ Y_PREFEITURA = 380*1.50
 X_PRACA = 200*2.16
 Y_PRACA = 200*1.20
 
-X_BACK = 400*2.16
-Y_BACK = 400*1.64
+X_BACK = 400*2.50
+Y_BACK = 400*1.85
 
 X_TROFEU = 250*2.16
 Y_TROFEU = 250*1.64
@@ -232,7 +232,7 @@ def tutorial_screen(screen, background_img, next_screen):
                 return END
             if event.type == pygame.MOUSEBUTTONDOWN:
                 return next_screen
-                
+
         screen.blit(tutorial1_img, (0,0))
         #depois de desenhar tudo, mostra a nova tela
         pygame.display.flip()

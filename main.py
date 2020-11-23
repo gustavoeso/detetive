@@ -161,15 +161,15 @@ posicoes = [[100, 200], [300, 380], [200, 400]]
 
 #dicionario definindo os locais
 locais = [
-    Local(X_BANCO, Y_BANCO, banco_img, 'banco'),
-    Local(X_BIBLIOTECA, Y_BIBLIOTECA, biblioteca_img, 'biblioteca'),
-    Local(X_HOTEL, Y_HOTEL, hotel_img, 'hotel'),
-    Local(X_METRO, Y_METRO, metro_img, 'metro'),
-    Local(X_CEMIT, Y_CEMIT, cemit_img, 'cemiterio'),
-    Local(X_BOATE, Y_BOATE, boate_img, 'boate'),
-    Local(X_FLORI, Y_FLORI, flori_img, 'floricultura'),
-    Local(X_PREFEITURA, Y_PREFEITURA, prefeitura_img, 'prefeitura'),
-    Local(X_PRACA, Y_PRACA, praca_img, 'praca'),
+    Local(X_BANCO, Y_BANCO, banco_img, banco_grande_img, 'banco', objetos[0:3]),
+    Local(X_BIBLIOTECA, Y_BIBLIOTECA, biblioteca_img, biblioteca_grande_img, 'biblioteca', objetos[3:6]),
+    Local(X_HOTEL, Y_HOTEL, hotel_img, hotel_grande_img, 'hotel', objetos[6:9]),
+    Local(X_METRO, Y_METRO, metro_img, metro_grande_img, 'metro', objetos[9:12]),
+    Local(X_CEMIT, Y_CEMIT, cemit_img, cemit_grande_img, 'cemiterio', objetos[12:15]),
+    Local(X_BOATE, Y_BOATE, boate_img, boate_grande_img, 'boate', objetos[15:18]),
+    Local(X_FLORI, Y_FLORI, flori_img, flori_grande_img, 'floricultura', objetos[18:21]),
+    Local(X_PREFEITURA, Y_PREFEITURA, prefeitura_img, prefeitura_grande_img, 'prefeitura', objetos[21:24]),
+    Local(X_PRACA, Y_PRACA, praca_img, praca_grande_img, 'praca', objetos[24:27]),
 ]
 
 # Define constantes para as telas
@@ -219,10 +219,10 @@ while state != DONE:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if local_atual is None:
                 local_atual = verifica_clique(locais)
-                if clicou_botao_tutorial:
-                     return TUTORIAL 
-                if clicou_botao_creditos:
-                     return CREDITOS
+                # if clicou_botao_tutorial:
+                #      return TUTORIAL 
+                # if clicou_botao_creditos:
+                #      return CREDITOS
             else:
                 voltar = verifica_clique_local(back_img_rect)
                 sound_click = pygame.mixer.Sound((path.join(SND_DIR, 'Musicas/click.mp3')))
@@ -269,11 +269,11 @@ def tutorial_screen(screen, background_img, next_screen):
         pygame.display.flip()
 
 
-game_state = STARTING
+game_state = GAME
 while game_state != END:
-    if game_state == STARTING:
-        game_state = start_screen(screen)
-    elif game_state == GAME:
+    # if game_state == STARTING:
+    #     game_state = start_screen(screen)
+    if game_state == GAME:
         game_state = game_screen(screen)
     # elif game_state == TUTORIAL1:
     #     game_state = tutorial_screen(screen, tutorial1_img, TUTORIAL2)

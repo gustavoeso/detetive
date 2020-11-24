@@ -68,13 +68,12 @@ class Jogador(pygame.sprite.Sprite):
 
 class Objeto(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, img):
+    def __init__(self, posicoes, img):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = img
         self.rect = img.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect = posicoes
 
 class Local(pygame.sprite.Sprite):
 
@@ -88,7 +87,6 @@ class Local(pygame.sprite.Sprite):
         self.rect.y = y
         self.nome = nome
         self.objetos = objetos
-
 
 
 def verifica_clique(locais):
@@ -148,15 +146,36 @@ tutorial2_img = pygame.image.load(path.join(IMG_DIR, 'imagens/tutorial2.png')).c
 tutorial3_img = pygame.image.load(path.join(IMG_DIR, 'imagens/tutorial3.png')).convert_alpha()
 
 # Fazer uma lista de n+1 objetos
+posicoes = [
+    [100, 200],
+    [300, 380], 
+    [400, 400], 
+    [300, 400], 
+    [900, 300],
+    [250, 700],
+    [100, 450],
+    [450, 300],
+    [15, 70],
+    [1000, 600],
+    [600, 100],
+]
+
 
 objetos = [
-    Objeto(X_TROFEU, Y_TROFEU, tesoura_img), 
-    Objeto(X_TROFEU, Y_TROFEU, trofeu_img), 
-    Objeto(X_TROFEU, Y_TROFEU, trofeu_img),
+    Objeto(posicoes[0], tesoura_img), 
+    Objeto(posicoes, trofeu_img), 
+    Objeto(posicoes[1], trofeu_img),
+    Objeto(posicoes[2], arma_pá_img),
+    Objeto(posicoes[3], trofeu_img),
+    Objeto(posicoes[4], trofeu_img),
+    Objeto(posicoes[5], trofeu_img),
+    Objeto(posicoes[6], veneno_img),
+    Objeto(posicoes[7], arma1_img),
+    Objeto(posicoes[8], Socoinglês_img),
+    Objeto(posicoes[9], trofeu_img),
 ]
-# random.shuffle(objetos)
+random.shuffle(objetos)
 objeto_selecionado = objetos[-1]
-posicoes = [[100, 200], [300, 380], [200, 400]]
 
 #dicionario definindo os locais
 locais = [

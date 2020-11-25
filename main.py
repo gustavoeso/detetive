@@ -356,7 +356,6 @@ def perdeu_screen(screen):
                 return END
         screen.blit(metro_grande_img, (0,0))
         pygame.display.flip()
-game_state = TUTORIAL1
 
 def chute_screen(screen):
     local_atual = None

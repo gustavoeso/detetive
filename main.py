@@ -70,13 +70,12 @@ class Jogador(pygame.sprite.Sprite):
         self.rect.y = y
 
 class Arma(pygame.sprite.Sprite):
-
-    def __init__(self, posicoes, img):
+    def __init__(self, x, y, img):
         pygame.sprite.Sprite.__init__(self)
-
         self.image = img
         self.rect = img.get_rect()
-        self.rect = posicoes
+        self.rect.x = x
+        self.rect.y = y
 
 class Objeto(pygame.sprite.Sprite):
 
@@ -196,17 +195,17 @@ posicoes = [
 
 
 Armas = [
-    Arma(posicoes[0], tesoura_img), 
-    Arma(posicoes[1], trofeu_img), 
-    Arma(posicoes[2], trofeu_img),
-    Arma(posicoes[3], arma_pá_img),
-    Arma(posicoes[4], trofeu_img),
-    Arma(posicoes[5], trofeu_img),
-    Arma(posicoes[6], trofeu_img),
-    Arma(posicoes[7], veneno_img),
-    Arma(posicoes[8], arma1_img),
-    Arma(posicoes[9], Socoinglês_img),
-    Arma(posicoes[10], trofeu_img),
+    Arma(posicoes[0][0], posicoes[0][1], tesoura_img), 
+    Arma(posicoes[1][0], posicoes[1][1], arma1_img), 
+    Arma(posicoes[2][0], posicoes[2][1], arma_pá_img),
+    Arma(posicoes[3][0], posicoes[3][1], Socoinglês_img),
+    Arma(posicoes[4][0], posicoes[4][1], trofeu_img),
+    Arma(posicoes[5][0], posicoes[5][1], tesoura_img),
+    Arma(posicoes[6][0], posicoes[6][1], tesoura_img),
+    Arma(posicoes[7][0], posicoes[7][1], tesoura_img),
+    Arma(posicoes[8][0], posicoes[8][1], tesoura_img),
+    Arma(posicoes[9][0], posicoes[9][1], tesoura_img),
+    Arma(posicoes[10][0], posicoes[10][1], tesoura_img),
 ]
 
 
@@ -258,10 +257,6 @@ def game_screen(screen):
                 for chutes in chute_lista:
                     if chutes.rect.collidepoint(event.pos):
                         return CHUTE
-                        # if event.type == pygame.MOUSEBUTTONDOWN:
-                        #     local_atual = verifica_clique_chute
-                        #     if local_atual == Arma_selecionada:
-                        #         print("ganhou")
                 if local_atual is None:
                     local_atual = verifica_clique(locais)
                 else:
@@ -317,8 +312,9 @@ def chute_screen(screen):
             if event.type == pygame.QUIT:
                 state = DONE
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if local_atual is None:
-                    local_atual = verifica_clique(locais)
+                if  local_atual == verifica_clique_chute(Armas):
+                    if local_atual == Arma_selecionada:
+                        print("ganhou")
                 else:
                     voltar = verifica_clique_local(back_img_rect)
                     if voltar:
@@ -329,6 +325,8 @@ def chute_screen(screen):
             screen.fill(GREEN)
             X_CHUTE = 50
             for Arma in Armas:
+                Arma.rect.x = X_CHUTE
+                Arma.rect.y = Y_CHUTE
                 screen.blit(Arma.image, (X_CHUTE, Y_CHUTE))
                 X_CHUTE += 100
         # else:

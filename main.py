@@ -56,9 +56,6 @@ Y_TROFEU = 250*1.64
 
 Y_CHUTE = 410
 
-# variaveis
-game_state = 0 
-
 
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, x, y, img):
@@ -156,6 +153,14 @@ castical_img = pygame.image.load(path.join(IMG_DIR, 'imagens/castical.png')).con
 corda_img = pygame.image.load(path.join(IMG_DIR, 'imagens/corda.png')).convert_alpha()
 chave_inglesa_img = pygame.image.load(path.join(IMG_DIR, 'imagens/chave_inglesa.png')).convert_alpha()
 blank_img = pygame.image.load(path.join(IMG_DIR, 'imagens/blank.png')).convert_alpha()
+raposa_img = pygame.image.load(path.join(IMG_DIR, 'imagens/raposa.png')).convert_alpha()
+ferramentas_img = pygame.image.load(path.join(IMG_DIR, 'imagens/ferramentas.png')).convert_alpha()
+presente_bonito_img = pygame.image.load(path.join(IMG_DIR, 'imagens/presente_bonito.png')).convert_alpha()
+presente_r_img = pygame.image.load(path.join(IMG_DIR, 'imagens/presente_r.png')).convert_alpha()
+caixa_c_img = pygame.image.load(path.join(IMG_DIR, 'imagens/caixa_c.png')).convert_alpha()
+caixa_a_img = pygame.image.load(path.join(IMG_DIR, 'imagens/caixa_a.png')).convert_alpha()
+maca_img = pygame.image.load(path.join(IMG_DIR, 'imagens/maca.png')).convert_alpha()
+planta_img = pygame.image.load(path.join(IMG_DIR, 'imagens/planta.png')).convert_alpha()
 back_img = pygame.image.load(path.join(IMG_DIR, 'imagens/back.png')).convert_alpha()
 back_img_rect = back_img.get_rect()
 back_img_rect.x = X_BACK
@@ -179,6 +184,7 @@ flori_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/flori_grande.pn
 praca_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/praca_grande.png')).convert_alpha()
 prefeitura_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/prefeitura_grande.png')).convert_alpha()
 biblioteca_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/biblioteca_grande.png')).convert_alpha()
+imagem_home_img = pygame.image.load(path.join(IMG_DIR, 'imagens/imagem_home.png')).convert_alpha()
 tutorial1_img = pygame.image.load(path.join(IMG_DIR, 'imagens/tutorial1.png')).convert_alpha()
 tutorial2_img = pygame.image.load(path.join(IMG_DIR, 'imagens/tutorial2.png')).convert_alpha()
 tutorial3_img = pygame.image.load(path.join(IMG_DIR, 'imagens/tutorial3.png')).convert_alpha()
@@ -190,16 +196,23 @@ posicoes = [
     [400, 400], 
     [300, 400], 
     [900, 300],
-    [250, 700],
+    [250, 300],
     [100, 450],
     [450, 300],
     [15, 70],
     [1000, 600],
     [400, 400],
-    [200, 400],
+    [150, 380],
     [100, 400],
     [200, 200],
-    [900, 700],
+    [900, 620],
+    [400, 350],
+    [700, 600],
+    [900, 100],
+    [900, 340],
+    [120, 200],
+    [1000, 560],
+    [230, 300],
 ]
 
 
@@ -222,24 +235,31 @@ Arma_selecionada = Armas.pop()
 
 Objetos = [
     Objeto(posicoes[10][0], posicoes[10][1], blank_img),
-    Objeto(posicoes[11][0], posicoes[11][1], blank_img),
+    Objeto(posicoes[11][0], posicoes[11][1], raposa_img),
     Objeto(posicoes[12][0], posicoes[12][1], blank_img),
     Objeto(posicoes[13][0], posicoes[13][1], blank_img),
     Objeto(posicoes[14][0], posicoes[14][1], blank_img),
+    Objeto(posicoes[15][0], posicoes[15][1], planta_img),
+    Objeto(posicoes[16][0], posicoes[16][1], presente_bonito_img),
+    Objeto(posicoes[17][0], posicoes[17][1], presente_r_img),
+    Objeto(posicoes[18][0], posicoes[18][1], ferramentas_img),
+    Objeto(posicoes[19][0], posicoes[19][1], caixa_a_img),
+    Objeto(posicoes[20][0], posicoes[20][1], caixa_c_img),
+    Objeto(posicoes[21][0], posicoes[21][1], maca_img),
 ]
 random.shuffle(Objetos)
 
 #dicionario definindo os locais
 locais = [
-    Local(X_BANCO, Y_BANCO, banco_img, banco_grande_img, 'banco', Armas[0:2], Objetos[0:1]),
-    Local(X_BIBLIOTECA, Y_BIBLIOTECA, biblioteca_img, biblioteca_grande_img, 'biblioteca', Armas[0:0], Objetos[1:2]),
-    Local(X_HOTEL, Y_HOTEL, hotel_img, hotel_grande_img, 'hotel', Armas[2:4], Objetos[2:3]),
-    Local(X_METRO, Y_METRO, metro_img, metro_grande_img, 'metro', Armas[4:5], Objetos[3:4]),
-    Local(X_CEMIT, Y_CEMIT, cemit_img, cemit_grande_img, 'cemiterio', Armas[0:0], Objetos[4:5]),
-    Local(X_BOATE, Y_BOATE, boate_img, boate_grande_img, 'boate', Armas[5:8], Objetos[5:6]),
-    Local(X_FLORI, Y_FLORI, flori_img, flori_grande_img, 'floricultura', Armas[0:0], Objetos[6:7]),
-    Local(X_PREFEITURA, Y_PREFEITURA, prefeitura_img, prefeitura_grande_img, 'prefeitura', Armas[8:9], Objetos[7:8]),
-    Local(X_PRACA, Y_PRACA, praca_img, praca_grande_img, 'praca', Armas[9:10], Objetos[8:9]),
+    Local(X_BANCO, Y_BANCO, banco_img, banco_grande_img, 'banco', Armas[0:1], Objetos[0:2]),
+    Local(X_BIBLIOTECA, Y_BIBLIOTECA, biblioteca_img, biblioteca_grande_img, 'biblioteca', Armas[0:0], Objetos[2:4]),
+    Local(X_HOTEL, Y_HOTEL, hotel_img, hotel_grande_img, 'hotel', Armas[1:3], Objetos[4:5]),
+    Local(X_METRO, Y_METRO, metro_img, metro_grande_img, 'metro', Armas[3:4], Objetos[5:6]),
+    Local(X_CEMIT, Y_CEMIT, cemit_img, cemit_grande_img, 'cemiterio', Armas[0:0], Objetos[6:8]),
+    Local(X_BOATE, Y_BOATE, boate_img, boate_grande_img, 'boate', Armas[4:7], Objetos[8:9]),
+    Local(X_FLORI, Y_FLORI, flori_img, flori_grande_img, 'floricultura', Armas[7:8], Objetos[9:10]),
+    Local(X_PREFEITURA, Y_PREFEITURA, prefeitura_img, prefeitura_grande_img, 'prefeitura', Armas[8:9], Objetos[10:11]),
+    Local(X_PRACA, Y_PRACA, praca_img, praca_grande_img, 'praca', Armas[8:9], Objetos[0:0]),
 ]
 
 # Define constantes para as telas
@@ -248,13 +268,15 @@ DONE = 1
 PLAYING = 2
 GAME = 3
 END = 4
-CREDITOS = 5
-TUTORIAL1 = 6
-TUTORIAL2 = 7
-TUTORIAL3 = 8
-CHUTE = 9
-GANHOU = 10
-PERDEU = 11
+HOME = 5
+CREDITOS = 6
+TUTORIAL1 = 7
+TUTORIAL2 = 8
+TUTORIAL3 = 9
+CHUTE = 10
+GANHOU = 11
+PERDEU = 12
+
 
 
 #conseguir abrir a tela e fechar ela
@@ -280,8 +302,6 @@ def game_screen(screen):
                     sound_click.play()
                     if voltar:
                         local_atual = None
-        #A cada loop, redesenhe o fundo e os sprites
-
         if local_atual is None:
             screen.fill(GREEN)
             for local in locais:
@@ -313,7 +333,6 @@ def tutorial_screen(screen, background_img, next_screen):
                 return END
             if event.type == pygame.MOUSEBUTTONDOWN:
                 return next_screen
-
         screen.blit(background_img, (0,0))
         #depois de desenhar tudo, mostra a nova tela
         pygame.display.flip()
@@ -324,8 +343,18 @@ def ganhou_screen(screen):
         for event in pygame.event.get():    
             if event.type == pygame.QUIT:
                 return END
-            if event.type == pygame.NOFRAME:
-                screen = screen.blit(boate_grande_img)
+        screen.blit(boate_grande_img, (0,0))
+        pygame.display.flip()
+
+game_state = HOME
+
+def perdeu_screen(screen):
+    state = PLAYING
+    while state != DONE: 
+        for event in pygame.event.get():    
+            if event.type == pygame.QUIT:
+                return END
+        screen.blit(metro_grande_img, (0,0))
         pygame.display.flip()
 game_state = TUTORIAL1
 
@@ -342,9 +371,10 @@ def chute_screen(screen):
                 local_atual = verifica_clique_chute(Armas)
                 if local_atual == Arma_selecionada:
                     print("ganhou")
-                    game_state == GANHOU
+                    return GANHOU
                 else:
                     print("perdeu")
+                    return PERDEU
         #A cada loop, redesenhe o fundo e os sprites
         if local_atual is None:
             screen.fill(GREEN)
@@ -358,20 +388,22 @@ def chute_screen(screen):
         pygame.display.flip()
 
 while game_state != END:
-    # if game_state == STARTING:
-    #     game_state = start_screen(screen)
-    if game_state == GAME:
-        game_state = game_screen(screen)
+    if game_state == HOME:
+        game_state = tutorial_screen(screen, imagem_home_img, TUTORIAL1)
     elif game_state == TUTORIAL1:
         game_state = tutorial_screen(screen, tutorial1_img, TUTORIAL2)
     elif game_state == TUTORIAL2:
         game_state = tutorial_screen(screen, tutorial2_img, TUTORIAL3)
     elif game_state == TUTORIAL3:
         game_state = tutorial_screen(screen, tutorial3_img, GAME)
+    elif game_state == GAME:
+        game_state = game_screen(screen)
     elif game_state == CHUTE:
         game_state = chute_screen(screen)
     elif game_state == GANHOU:
         game_state = ganhou_screen(screen)
+    elif game_state == PERDEU:
+        game_state = perdeu_screen(screen)
     else:
         game_state = END
 

@@ -79,12 +79,13 @@ class Arma(pygame.sprite.Sprite):
 
 class Objeto(pygame.sprite.Sprite):
 
-    def __init__(self, posicoes, img):
+    def __init__(self, x, y, img):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = img
         self.rect = img.get_rect()
-        self.rect = posicoes
+        self.rect.x = x
+        self.rect.y = y
 
 class Local(pygame.sprite.Sprite):
     def __init__(self, x, y, img, img_grande, nome, Armas, Objetos):
@@ -150,6 +151,11 @@ Socoinglês_img = pygame.image.load(path.join(IMG_DIR, 'imagens/armas_socoinglê
 veneno_img = pygame.image.load(path.join(IMG_DIR, 'imagens/armas_veneno.png')).convert_alpha()
 trofeu_img = pygame.image.load(path.join(IMG_DIR, 'imagens/trofeu.png')).convert_alpha()
 tesoura_img = pygame.image.load(path.join(IMG_DIR, 'imagens/tesoura.png')).convert_alpha()
+pistola_img = pygame.image.load(path.join(IMG_DIR, 'imagens/pistola.png')).convert_alpha()
+castical_img = pygame.image.load(path.join(IMG_DIR, 'imagens/castical.png')).convert_alpha()
+corda_img = pygame.image.load(path.join(IMG_DIR, 'imagens/corda.png')).convert_alpha()
+chave_inglesa_img = pygame.image.load(path.join(IMG_DIR, 'imagens/chave_inglesa.png')).convert_alpha()
+blank_img = pygame.image.load(path.join(IMG_DIR, 'imagens/blank.png')).convert_alpha()
 back_img = pygame.image.load(path.join(IMG_DIR, 'imagens/back.png')).convert_alpha()
 back_img_rect = back_img.get_rect()
 back_img_rect.x = X_BACK
@@ -189,8 +195,11 @@ posicoes = [
     [450, 300],
     [15, 70],
     [1000, 600],
-    [600, 100],
-    [800, 100],
+    [400, 400],
+    [200, 400],
+    [100, 400],
+    [200, 200],
+    [900, 700],
 ]
 
 
@@ -200,12 +209,11 @@ Armas = [
     Arma(posicoes[2][0], posicoes[2][1], arma_pá_img),
     Arma(posicoes[3][0], posicoes[3][1], Socoinglês_img),
     Arma(posicoes[4][0], posicoes[4][1], trofeu_img),
-    Arma(posicoes[5][0], posicoes[5][1], tesoura_img),
-    Arma(posicoes[6][0], posicoes[6][1], tesoura_img),
-    Arma(posicoes[7][0], posicoes[7][1], tesoura_img),
-    Arma(posicoes[8][0], posicoes[8][1], tesoura_img),
-    Arma(posicoes[9][0], posicoes[9][1], tesoura_img),
-    Arma(posicoes[10][0], posicoes[10][1], tesoura_img),
+    Arma(posicoes[5][0], posicoes[5][1], pistola_img),
+    Arma(posicoes[6][0], posicoes[6][1], castical_img),
+    Arma(posicoes[7][0], posicoes[7][1], corda_img),
+    Arma(posicoes[8][0], posicoes[8][1], chave_inglesa_img),
+    Arma(posicoes[9][0], posicoes[9][1], veneno_img),
 ]
 
 
@@ -213,20 +221,25 @@ random.shuffle(Armas)
 Arma_selecionada = Armas.pop()
 
 Objetos = [
-    Objeto(posicoes[11], arma_pá_img)
+    Objeto(posicoes[10][0], posicoes[10][1], blank_img),
+    Objeto(posicoes[11][0], posicoes[11][1], blank_img),
+    Objeto(posicoes[12][0], posicoes[12][1], blank_img),
+    Objeto(posicoes[13][0], posicoes[13][1], blank_img),
+    Objeto(posicoes[14][0], posicoes[14][1], blank_img),
 ]
+random.shuffle(Objetos)
 
 #dicionario definindo os locais
 locais = [
-    Local(X_BANCO, Y_BANCO, banco_img, banco_grande_img, 'banco', Armas[0:3], Objetos[0:1]),
-    Local(X_BIBLIOTECA, Y_BIBLIOTECA, biblioteca_img, biblioteca_grande_img, 'biblioteca', Armas[3:6], Objetos[1:2]),
-    Local(X_HOTEL, Y_HOTEL, hotel_img, hotel_grande_img, 'hotel', Armas[6:9], Objetos[2:3]),
-    Local(X_METRO, Y_METRO, metro_img, metro_grande_img, 'metro', Armas[9:12], Objetos[3:4]),
-    Local(X_CEMIT, Y_CEMIT, cemit_img, cemit_grande_img, 'cemiterio', Armas[12:15], Objetos[4:5]),
-    Local(X_BOATE, Y_BOATE, boate_img, boate_grande_img, 'boate', Armas[15:18], Objetos[5:6]),
-    Local(X_FLORI, Y_FLORI, flori_img, flori_grande_img, 'floricultura', Armas[18:21], Objetos[6:7]),
-    Local(X_PREFEITURA, Y_PREFEITURA, prefeitura_img, prefeitura_grande_img, 'prefeitura', Armas[21:24], Objetos[7:8]),
-    Local(X_PRACA, Y_PRACA, praca_img, praca_grande_img, 'praca', Armas[24:27], Objetos[8:9]),
+    Local(X_BANCO, Y_BANCO, banco_img, banco_grande_img, 'banco', Armas[0:2], Objetos[0:1]),
+    Local(X_BIBLIOTECA, Y_BIBLIOTECA, biblioteca_img, biblioteca_grande_img, 'biblioteca', Armas[0:0], Objetos[1:2]),
+    Local(X_HOTEL, Y_HOTEL, hotel_img, hotel_grande_img, 'hotel', Armas[2:4], Objetos[2:3]),
+    Local(X_METRO, Y_METRO, metro_img, metro_grande_img, 'metro', Armas[4:5], Objetos[3:4]),
+    Local(X_CEMIT, Y_CEMIT, cemit_img, cemit_grande_img, 'cemiterio', Armas[0:0], Objetos[4:5]),
+    Local(X_BOATE, Y_BOATE, boate_img, boate_grande_img, 'boate', Armas[5:8], Objetos[5:6]),
+    Local(X_FLORI, Y_FLORI, flori_img, flori_grande_img, 'floricultura', Armas[0:0], Objetos[6:7]),
+    Local(X_PREFEITURA, Y_PREFEITURA, prefeitura_img, prefeitura_grande_img, 'prefeitura', Armas[8:9], Objetos[7:8]),
+    Local(X_PRACA, Y_PRACA, praca_img, praca_grande_img, 'praca', Armas[9:10], Objetos[8:9]),
 ]
 
 # Define constantes para as telas
@@ -240,6 +253,8 @@ TUTORIAL1 = 6
 TUTORIAL2 = 7
 TUTORIAL3 = 8
 CHUTE = 9
+GANHOU = 10
+PERDEU = 11
 
 
 #conseguir abrir a tela e fechar ela
@@ -303,24 +318,34 @@ def tutorial_screen(screen, background_img, next_screen):
         #depois de desenhar tudo, mostra a nova tela
         pygame.display.flip()
 
+def ganhou_screen(screen):
+    state = PLAYING
+    while state != DONE: 
+        for event in pygame.event.get():    
+            if event.type == pygame.QUIT:
+                return END
+            if event.type == pygame.NOFRAME:
+                screen = screen.blit(boate_grande_img)
+        pygame.display.flip()
+game_state = TUTORIAL1
 
 def chute_screen(screen):
     local_atual = None
     state = PLAYING
+    Armas.append(Arma_selecionada)
+    random.shuffle(Armas)
     while state != DONE:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 state = DONE
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if  local_atual == verifica_clique_chute(Armas):
-                    if local_atual == Arma_selecionada:
-                        print("ganhou")
+                local_atual = verifica_clique_chute(Armas)
+                if local_atual == Arma_selecionada:
+                    print("ganhou")
+                    game_state == GANHOU
                 else:
-                    voltar = verifica_clique_local(back_img_rect)
-                    if voltar:
-                        local_atual = None
+                    print("perdeu")
         #A cada loop, redesenhe o fundo e os sprites
-        # if game_state == 0:
         if local_atual is None:
             screen.fill(GREEN)
             X_CHUTE = 50
@@ -328,23 +353,10 @@ def chute_screen(screen):
                 Arma.rect.x = X_CHUTE
                 Arma.rect.y = Y_CHUTE
                 screen.blit(Arma.image, (X_CHUTE, Y_CHUTE))
-                X_CHUTE += 100
-        # else:
-        #     screen.fill(BLACK)
-        #     screen.blit(local_atual.img_grande, (0, 0))
-        #     screen.blit(back_img, back_img_rect)
-        #     i = 0
-        #     for objeto in local_atual.objetos:
-        #         posicao = posicoes[i]
-        #         screen.blit(objeto.image, posicao)
-        #         i += 1
-
-
+                X_CHUTE += 90
         #depois de desenhar tudo, mostra a nova tela
         pygame.display.flip()
 
-
-game_state = TUTORIAL1
 while game_state != END:
     # if game_state == STARTING:
     #     game_state = start_screen(screen)
@@ -358,6 +370,8 @@ while game_state != END:
         game_state = tutorial_screen(screen, tutorial3_img, GAME)
     elif game_state == CHUTE:
         game_state = chute_screen(screen)
+    elif game_state == GANHOU:
+        game_state = ganhou_screen(screen)
     else:
         game_state = END
 

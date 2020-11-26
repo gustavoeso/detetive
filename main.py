@@ -23,30 +23,29 @@ T_TELA_Y = 820
 X_BANCO = 10*2.16
 Y_BANCO = 10*1.64
 
-
 X_METRO = 10*2.16
-Y_METRO = 200*1.40
+Y_METRO = 215*1.40
 
 X_HOTEL = 10*2.16
-Y_HOTEL = 380*1.50
+Y_HOTEL = 400*1.50
 
-X_BIBLIOTECA = 200*2.16
+X_BIBLIOTECA = 175*2.16
 Y_BIBLIOTECA = 10*1.64
 
-X_CEMIT = 380*2.16
+X_CEMIT = 350*2.16
 Y_CEMIT = 10*1.64
 
-X_BOATE = 380*2.16
-Y_BOATE = 200*1.40
+X_BOATE = 350*2.16
+Y_BOATE = 215*1.40
 
-X_FLORI = 380*2.16
-Y_FLORI = 380*1.50
+X_FLORI = 350*2.16
+Y_FLORI = 400*1.50
 
-X_PREFEITURA = 200*2.16
-Y_PREFEITURA = 380*1.50
+X_PREFEITURA = 175*2.16
+Y_PREFEITURA = 400*1.50
 
-X_PRACA = 200*2.16
-Y_PRACA = 200*1.20
+X_PRACA = 175*2.16
+Y_PRACA = 250*1.20
 
 X_BACK = 400*2.50
 Y_BACK = 400*1.85
@@ -179,7 +178,7 @@ metro_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/metro_grande.pn
 boate_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/boate_grande.png')).convert_alpha()
 cemit_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/cemit_grande.png')).convert_alpha()
 hotel_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/hotel_grande.png')).convert_alpha()
-banco_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/banco_grande.jpg')).convert_alpha()
+banco_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/banco_grande.png')).convert_alpha()
 flori_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/flori_grande.png')).convert_alpha()
 praca_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/praca_grande.png')).convert_alpha()
 prefeitura_grande_img = pygame.image.load(path.join(IMG_DIR, 'imagens/prefeitura_grande.png')).convert_alpha()
@@ -188,6 +187,8 @@ imagem_home_img = pygame.image.load(path.join(IMG_DIR, 'imagens/imagem_home.png'
 tutorial1_img = pygame.image.load(path.join(IMG_DIR, 'imagens/tutorial1.png')).convert_alpha()
 tutorial2_img = pygame.image.load(path.join(IMG_DIR, 'imagens/tutorial2.png')).convert_alpha()
 tutorial3_img = pygame.image.load(path.join(IMG_DIR, 'imagens/tutorial3.png')).convert_alpha()
+ganhou_img = pygame.image.load(path.join(IMG_DIR, 'imagens/ganhou.png')).convert_alpha()
+perdeu_img = pygame.image.load(path.join(IMG_DIR, 'imagens/perdeu.png')).convert_alpha()
 
 # Fazer uma lista de n+1 objetos
 posicoes = [
@@ -259,7 +260,7 @@ locais = [
     Local(X_BOATE, Y_BOATE, boate_img, boate_grande_img, 'boate', Armas[4:7], Objetos[8:9]),
     Local(X_FLORI, Y_FLORI, flori_img, flori_grande_img, 'floricultura', Armas[7:8], Objetos[9:10]),
     Local(X_PREFEITURA, Y_PREFEITURA, prefeitura_img, prefeitura_grande_img, 'prefeitura', Armas[8:9], Objetos[10:11]),
-    Local(X_PRACA, Y_PRACA, praca_img, praca_grande_img, 'praca', Armas[8:9], Objetos[0:0]),
+    Local(X_PRACA, Y_PRACA, praca_img, praca_grande_img, 'praca', Armas[9:9], Objetos[0:0]),
 ]
 
 # Define constantes para as telas
@@ -303,7 +304,7 @@ def game_screen(screen):
                     if voltar:
                         local_atual = None
         if local_atual is None:
-            screen.fill(GREEN)
+            screen.fill(WHITE)
             for local in locais:
                 screen.blit(local.image, local.rect)
                 #adicionando botão para página de chute
@@ -343,7 +344,7 @@ def ganhou_screen(screen):
         for event in pygame.event.get():    
             if event.type == pygame.QUIT:
                 return END
-        screen.blit(boate_grande_img, (0,0))
+        screen.blit(ganhou_img, (0,0))
         pygame.display.flip()
 
 game_state = HOME
@@ -354,7 +355,7 @@ def perdeu_screen(screen):
         for event in pygame.event.get():    
             if event.type == pygame.QUIT:
                 return END
-        screen.blit(metro_grande_img, (0,0))
+        screen.blit(perdeu_img, (0,0))
         pygame.display.flip()
 
 def chute_screen(screen):

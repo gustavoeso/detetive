@@ -287,6 +287,7 @@ def game_screen(screen):
     state = PLAYING
     pygame.mixer.music.load((path.join(SND_DIR, 'Musicas/sherlock.mp3')))
     pygame.mixer.music.play(loops=-1)
+    pygame.mixer.music.set_volume(0.2)
     while state != DONE:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

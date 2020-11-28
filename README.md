@@ -13,3 +13,6 @@ Instruções:
 O jogo exige que sua memória esteja em dia! Procure nos diferentes lugares da cidade por todos os objetos e memorize-os. O único que não for encontrado deve ser a arma do crime.
 Para explorar um local, clique com o mouse em cima deste no mapa. Para retornar ao mapa principal, clique no botão de volta no canto inferior á direita da tela. Se você já souber a resposta, clique no botão do lado esquerto superior da tela para selecionar a arma desaparecida usada no crime. E não se esqueça, não confie em ninguém!
 Obrigado, Detetive, E boa sorte!
+
+video do jogo:
+https://youtu.be/wBQwVOxAdW8
